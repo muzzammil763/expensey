@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Money Manager</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: flex-start; /* Align items to the top in desktop view */
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            background-image: url('https://randomuser.me/api/portraits/men/1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .header-icons {
+            display: flex;
+        }
+        .header-icons > div {
+          margin-left: 10px;
+          font-size: 1.2em;
+        }
+        .header-icons div:hover{
+            color: rgb(150, 150, 150);
+          cursor: pointer;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+         h1 span {
+            font-size: 1.5em;
+            display: block;
+         }
+        .welcome {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .welcome > span {
+          margin-left: 5px;
+        }
+        .card {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .card-title {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .card-balance {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        .card-details {
+           font-size: 0.8em;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+          .card-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #a8f07d;
+        }
+        .card-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #a8f07d;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin-left: auto;
+        }
+
+        .card-button:hover{
+            background-color: #83c85f;
+            cursor: pointer;
+        }
+        .card-button span {
+            margin-right: 5px;
+        }
+        .quick-send, .recent-activity {
+            margin-bottom: 20px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+          .section-header:hover{
+              cursor: pointer;
+            color: rgb(150, 150, 150);
+          }
+        .section-header a {
+            text-decoration: none;
+            color: #ddd;
+            font-size: 0.9em;
+        }
+        .profile-list {
+          display: flex;
+          gap: 10px;
+          overflow-x: auto;
+          padding: 10px 0;
+        }
+         .profile-list div{
+              display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: .8em;
+            white-space: nowrap;
+        }
+        .profile-pic-small {
+            width: 50px;
+            height: 50px;
+             border-radius: 50%;
+            background-color: #fff;
+            margin-bottom: 5px;
+             background-image: url('https://randomuser.me/api/portraits/men/2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+       .profile-pic-small:nth-child(2){
+           background-image: url('https://randomuser.me/api/portraits/women/3.jpg');
+        }
+        .profile-pic-small:nth-child(3){
+           background-image: url('https://randomuser.me/api/portraits/men/4.jpg');
+        }
+        .profile-pic-small:nth-child(4){
+           background-image: url('https://randomuser.me/api/portraits/men/5.jpg');
+        }
+         .profile-pic-small:nth-child(5){
+           background-image: url('https://randomuser.me/api/portraits/men/6.jpg');
+        }
+          .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+           .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 8px;
+        }
+           .activity-item:hover {
+            background-color: #444;
+            cursor: pointer;
+         }
+         .activity-info {
+            display: flex;
+            align-items: center;
+        }
+        .activity-logo {
+             width: 40px;
+            height: 40px;
+             border-radius: 50%;
+            background-color: #444;
+            margin-right: 10px;
+             display: flex;
+            justify-content: center;
+            align-items: center;
+             font-size: 1.3em;
+         }
+          .activity-logo:nth-child(1){
+               background-color: #222;
+                color: #0070ba;
+           }
+         .activity-logo:nth-child(2){
+               background-color: #222;
+               color: #f6830f;
+           }
+        .activity-details span {
+          display: block;
+          font-size: 0.8em;
+           color: #ddd;
+           margin-top: 3px;
+        }
+        .activity-amount {
+             font-size: 1.1em;
+              white-space: nowrap;
+        }
+        .activity-action-icon {
+            font-size: 1.5em;
+           margin-left: 10px;
+         }
+        /* Second screen layout */
+        .balance-card {
+          background-color: #a8f07d;
+          padding: 20px;
+          border-radius: 10px;
+          margin-bottom: 20px;
+          color: #000;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .balance-header{
+          margin-bottom: 10px;
+          display: flex;
+           justify-content: space-between;
+           align-items: center;
+          width: 100%;
+        }
+        .balance-header span{
+          font-size: .9em;
+        }
+          .balance-header div {
+            background-color: rgb(73, 73, 73);
+             padding: 5px 10px;
+             border-radius: 5px;
+           font-size: 0.8em;
+           cursor: pointer;
+           white-space: nowrap;
+        }
+        .balance-header div:hover{
+           background-color: rgb(114, 114, 114);
+        }
+        .balance-amount {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+        .balance-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .balance-button {
+             display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+             padding: 8px 20px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            background-color: #000;
+            color: #fff;
+        }
+          .balance-button:hover {
+            background-color: #333;
+            cursor: pointer;
+        }
+        .balance-button span {
+            margin-right: 5px;
+             font-size: 1.2em;
+        }
+         /* Mobile styles */
+        @media (max-width: 768px) {
+            body {
+                align-items: center; /* Center content vertically in mobile view */
+            }
+        }
+    </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="profile-pic"></div>
+            <div class="header-icons">
+              <div><i class="fas fa-search"></i></div>
+              <div><i class="fas fa-bell"></i></div>
+            </div>
+        </div>
+        <!-- Welcome -->
+      <div class="welcome">
+          <span>Welcome Back</span><i class="fa-solid fa-hand-peace" style="color: #a8f07d;"></i>
+        </div>
+        <!-- Title -->
+         <h1>Smart Solutions<span>for Smart Money.</span></h1>
+          <!-- Card -->
+        <div class="card">
+            <div class="card-title">VISA</div>
+            <div class="card-balance">$ 37,878.00</div>
+            <div class="card-details">**** **** **** 8967<br> Sajibur Rahman</div>
+           <i class="fas fa-volume-up card-icon"></i>
+            <button class="card-button"><span>+</span>Add Card</button>
+        </div>
+         <!-- Quick Send -->
+        <div class="quick-send">
+            <div class="section-header">
+                Quick Send
+                <a href="#">See all  <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="profile-list">
+                <div>
+                <div class="profile-pic-small"></div>
+                James
+                </div>
+                <div>
+                  <div class="profile-pic-small"></div>
+                 Blake
+                </div>
+                <div>
+                 <div class="profile-pic-small"></div>
+                 Jake
+                </div>
+                 <div>
+                 <div class="profile-pic-small"></div>
+                 Luke
+                </div>
+                <div>
+                   <div class="profile-pic-small"></div>
+                    Jack
+                </div>
+             </div>
+         </div>
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <div class="section-header">
+                Recent Activity
+                <a href="#">See all  <i class="fas fa-chevron-down"></i></a>
+            </div>
+             <div class="activity-list">
+                  <div class="activity-item">
+                      <div class="activity-info">
+                        <div class="activity-logo">
+                             <i class="fab fa-paypal"></i>
+                          </div>
+                         <div class="activity-details">
+                           PayPal
+                           <span>Monday, 29 Sep 2024</span>
+                       </div>
+                    </div>
+                     <div class="activity-amount">
+                       +$89.00
+                   </div>
+                </div>
+                 <div class="activity-item">
+                      <div class="activity-info">
+                        <div class="activity-logo">
+                           <i class="fab fa-amazon"></i>
+                          </div>
+                         <div class="activity-details">
+                           Amazon
+                            <span>Monday, 29 Sep 2024</span>
+                       </div>
+                    </div>
+                    <div class="activity-amount">
+                        +$56.00
+                   </div>
+                </div>
+             </div>
+         </div>
+    </div>
+       <!-- Second Screen Content (Balance) -->
+       <div class="container">
+           <div class="header">
+                <div class="profile-pic"></div>
+                <div class="header-icons">
+                   <div><i class="fas fa-search"></i></div>
+                    <div><i class="fas fa-bell"></i></div>
+                </div>
+             </div>
+          <!-- Balance card -->
+          <div class="balance-card">
+                <div class="balance-header">
+                     <span>Current Balance</span>
+                     <div>Monthly <i class="fas fa-chevron-down"></i></div>
+                   </div>
+                <div class="balance-amount">24,789.90 USD</div>
+                <div class="balance-buttons">
+                    <button class="balance-button"><span><i class="fas fa-arrow-up"></i></span>SEND</button>
+                    <button class="balance-button"><span><i class="fas fa-arrow-down"></i></span>RECEIVE</button>
+                </div>
+            </div>
+           <!-- Upcoming Activity -->
+        <div class="recent-activity">
+            <div class="section-header">
+               Upcoming Activity
+               <a href="#">See all  <i class="fas fa-chevron-down"></i></a>
+           </div>
+             <div class="activity-list">
+                  <div class="activity-item">
+                      <div class="activity-info">
+                          <div class="activity-logo">
+                               <i class="fab fa-paypal"></i>
+                          </div>
+                         <div class="activity-details">
+                           PayPal
+                           <span>/month</span>
+                       </div>
+                    </div>
+                    <div class="activity-amount">
+                       $13,600
+                   </div>
+                </div>
+                 <div class="activity-item">
+                      <div class="activity-info">
+                          <div class="activity-logo">
+                             <i class="fab fa-amazon"></i>
+                          </div>
+                         <div class="activity-details">
+                           Amazon
+                            <span>/month</span>
+                       </div>
+                    </div>
+                     <div class="activity-amount">
+                        $13,600
+                    </div>
+                 </div>
+                  <div class="activity-item">
+                       <div class="activity-info">
+                         <div class="activity-logo">
+                           <i class="fas fa-hamburger"></i>
+                          </div>
+                         <div class="activity-details">
+                           Food Cost
+                            <span>/month</span>
+                       </div>
+                    </div>
+                     <div class="activity-amount">
+                         $13,600
+                   </div>
+                </div>
+                <div class="activity-item">
+                   <div class="activity-info">
+                       <div class="activity-logo">
+                             <i class="fab fa-amazon"></i>
+                        </div>
+                      <div class="activity-details">
+                        Amazon
+                           <span>/month</span>
+                       </div>
+                    </div>
+                     <div class="activity-amount">
+                       $13,600
+                   </div>
+                </div>
+                 <div class="activity-item">
+                    <div class="activity-info">
+                       <div class="activity-logo">
+                          <i class="fab fa-payoneer"></i>
+                         </div>
+                        <div class="activity-details">
+                           Payment
+                           <span>/month</span>
+                       </div>
+                    </div>
+                   <div class="activity-amount">
+                       $13,600
+                    </div>
+                </div>
+                 <div class="activity-item">
+                      <div class="activity-info">
+                          <div class="activity-logo">
+                             <i class="fas fa-graduation-cap"></i>
+                          </div>
+                         <div class="activity-details">
+                            Tuition fees
+                           <span>/month</span>
+                        </div>
+                     </div>
+                    <div class="activity-amount">
+                         $13,600
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      // You can add JavaScript here for functionality
+      console.log("Js Connected")
+    </script>
+</body>
+  </html>
